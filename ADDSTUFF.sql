@@ -26,7 +26,8 @@ CREATE TABLE trim (
     t_accel DECIMAL(2, 0),
     t_eco DECIMAL(2, 0) NOT NULL,
     t_weight DECIMAL(2, 0) NOT NULL,
-    t_speed DECIMAL(2, 0) NOT NULL
+    t_speed DECIMAL(2, 0) NOT NULL,
+    t_price DECIMAL(10, 2) NOT NULL
 );  
 
 CREATE TABLE engine (
@@ -82,8 +83,8 @@ DELETE FROM color_Trim;
 INSERT INTO car(c_model, c_year, c_make, c_trim, c_bodyType, c_wheelBase)
 VALUES ('240SX', 1993, 'NISSAN', '240SX-SE', 'COUPE', 97.4);
 
-INSERT INTO trim(t_id, t_engine, t_transmission, t_wheels, t_accel, t_eco, t_weight, t_speed)
-VALUES ('240SX-SE', 'KA24E', '"KA24 5-speed"', '240SX 15s', 8, 22, 2800, 130);
+INSERT INTO trim(t_id, t_engine, t_transmission, t_wheels, t_accel, t_eco, t_weight, t_speed, t_price)
+VALUES ('240SX-SE', 'KA24E', '"KA24 5-speed"', '240SX 15s', 8, 22, 2800, 130, 15000.00);
 
 INSERT INTO color_Trim(c_id, t_id) VALUES ('RED', '240SX-SE');
 INSERT INTO color_Trim(c_id, t_id) VALUES ('BLUE', '240SX-SE');
