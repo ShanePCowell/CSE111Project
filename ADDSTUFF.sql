@@ -13,7 +13,6 @@ CREATE TABLE car (
     c_model VARCHAR (255)  NOT NULL,
     c_year DECIMAL (4, 0) NOT NULL,
     c_make  VARCHAR (255) NOT NULL,
-    c_trim VARCHAR (255),
     c_bodyType VARCHAR (255) NOT NULL,
     c_wheelBase DECIMAL(2, 0) NOT NULL
 );  
@@ -36,13 +35,18 @@ CREATE TABLE engine (
     e_cylinders INT (2, 0), 
     e_layout  VARCHAR (255),
     e_fuelType  VARCHAR (255) NOT NULL,
-    e_displacement DECIMAL (2, 0)
+    e_displacement DECIMAL (2, 0), 
+    e_horsepower DECIMAL (4, 0) NOT NULL,
+    e_torque DECIMAL (4, 0) NOT NULL,
+    e_redline DECIMAL (4, 0) NOT NULL
 );
 
 CREATE TABLE transmission (
     tr_id VARCHAR (255)  NOT NULL,
     tr_gears INT (2, 0) NOT NULL,
-    tr_driveRatio  VARCHAR (255) NOT NULL
+    tr_driveRatio  VARCHAR (255) NOT NULL,
+    tr_driveType VARCHAR (255) NOT NULL,
+    tr_type VARCHAR (255) NOT NULL
 );
 
 CREATE TABLE wheel (
@@ -85,11 +89,46 @@ DELETE FROM engine_Transmission;
 DELETE FROM wheel;
 DELETE FROM manufacturer;
 
-INSERT INTO car(c_model, c_year, c_make, c_trim, c_bodyType, c_wheelBase)
-VALUES ('240SX', 1993, 'NISSAN', '240SX-SE', 'COUPE', 97.4);
+-- 240SX - NISSAN
+
+INSERT INTO car(c_model, c_year, c_make, c_bodyType, c_wheelBase)
+VALUES ('240SX', 1993, 'NISSAN', 'COUPE', 97.4);
 
 INSERT INTO trim(t_model, t_id, t_engine, t_transmission, t_wheels, t_accel, t_eco, t_weight, t_speed, t_price)
-VALUES ('240SX', 'SE', 'KA24E', '"KA24 5-speed"', '240SX 15s', 8, 22, 2800, 130, 15000.00);
+VALUES ('240SX', 'SE', 'KA24DE', 'KA24 5-speed', '240SX 15s', 8, 22, 2800, 130, 15000.00);
 
-INSERT INTO color_Trim(c_id, t_id) VALUES ('RED', '240SX-SE');
-INSERT INTO color_Trim(c_id, t_id) VALUES ('BLUE', '240SX-SE');
+INSERT INTO trim(t_model, t_id, t_engine, t_transmission, t_wheels, t_accel, t_eco, t_weight, t_speed, t_price)
+VALUES ('240SX', 'Base', 'KA24DE', 'KA24 4-speed Auto', '14 inch Steelies', 8.6, 20, 2900, 120, 13500.00);
+
+insert INTO engine(e_id, e_cylinders, e_layout, e_fuelType, e_displacement, e_horsepower, e_torque, e_redline)
+VALUES ('KA24DE', 4, 'INLINE', 'GASOLINE', 2.4, 155, 160, 6900);
+
+INSERT INTO transmission(tr_id, tr_gears, tr_driveRatio, tr_driveType, tr_type)
+VALUES ('KA24 5-speed', 5, '3.692', 'RWD', 'MANUAL');
+
+INSERT INTO transmission(tr_id, tr_gears, tr_driveRatio, tr_driveType, tr_type)
+VALUES ('KA24 4-speed Auto', 4, '3.916', 'RWD', 'AUTOMATIC');
+
+INSERT INTO wheel(w_id, w_diameter, w_rim, w_size)
+VALUES ('240SX 15s', 15, '7 Spoke Aluminum', 205);
+
+INSERT INTO wheel(w_id, w_diameter, w_rim, w_size)
+VALUES ('14 inch Steelies', 14, 'Steel', 195);
+
+INSERT INTO manufacturer(m_make, m_nationOfOrigin)
+VALUES ('NISSAN', 'JAPAN');
+
+insert into engine_Transmission(e_id, tr_id)   
+VALUES ('KA24DE', 'KA24 5-speed');
+VALUES ('KA24DE', 'KA24 4-speed Auto');
+
+INSERT INTO color(c_id, c_finish, c_color) VALUES ('Hot Red', 'METALLIC', 'RED');
+INSERT INTO color(c_id, c_finish, c_color) VALUES ('Midnight Blue', 'METALLIC', 'BLUE');
+INSERT INTO color(c_id, c_finish, c_color) VALUES ('Champagne', 'METALLIC', 'BEIGE');
+
+
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Hot Red', '240SX-SE');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Midnight Blue', '240SX-SE');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Champagne', '240SX-SE');
+
+-- 2005 Dodge Charger
