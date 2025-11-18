@@ -131,4 +131,44 @@ INSERT INTO color_Trim(c_id, t_id) VALUES ('Hot Red', '240SX-SE');
 INSERT INTO color_Trim(c_id, t_id) VALUES ('Midnight Blue', '240SX-SE');
 INSERT INTO color_Trim(c_id, t_id) VALUES ('Champagne', '240SX-SE');
 
--- 2005 Dodge Charger
+-- 2007 Dodge Charger
+INSERT INTO car(c_model, c_year, c_make, c_bodyType, c_wheelBase)
+VALUES ('Charger', 2007, 'DODGE', 'SEDAN', 120.2);
+
+INSERT INTO trim(t_model, t_id, t_engine, t_transmission, t_wheels, t_accel, t_eco, t_weight, t_speed, t_price)
+VALUES ('Charger', 'SXT', 'EGG V6', '42RLE Automatic', 'Dodge 18 inch 5 Spokes', 7.2, 19, 3700, 130, 25000.00); 
+
+INSERT INTO trim(t_model, t_id, t_engine, t_transmission, t_wheels, t_accel, t_eco, t_weight, t_speed, t_price)     
+VALUES ('Charger', 'R/T', '5.7L HEMI V8', 'W5A580', 'Dodge 18 inch 5 Spokes', 5.3, 15, 4000, 145, 30000.00);
+
+insert INTO engine(e_id, e_cylinders, e_layout, e_fuelType, e_displacement, e_horsepower, e_torque, e_redline)
+VALUES ('EGG V6', 6, 'V', 'GASOLINE', 3.5, 250, 250, 6500);
+
+insert INTO engine(e_id, e_cylinders, e_layout, e_fuelType, e_displacement, e_horsepower, e_torque, e_redline)  
+VALUES ('5.7L HEMI V8', 8, 'V', 'GASOLINE', 5.7, 340, 390, 6000);
+
+INSERT INTO transmission(tr_id, tr_gears, tr_driveRatio, tr_driveType, tr_type)
+VALUES ('42RLE Automatic', 4, '3.91', 'RWD', 'AUTOMATIC');
+
+INSERT INTO transmission(tr_id, tr_gears, tr_driveRatio, tr_driveType, tr_type)
+VALUES ('W5A580', 5, '3.07', 'RWD', 'AUTOMATIC');
+
+INSERT INTO wheel(w_id, w_diameter, w_rim, w_size)
+VALUES ('Dodge 18 inch 5 Spokes', 18, '5 Spoke Aluminum', 245);
+
+INSERT INTO manufacturer(m_make, m_nationOfOrigin)
+VALUES ('DODGE', 'USA');    
+
+insert into engine_Transmission(e_id, tr_id)   
+VALUES ('EGG V6', '42RLE Automatic');
+VALUES ('5.7L HEMI V8', 'W5A580');
+
+INSERT INTO color(c_id, c_finish, c_color) VALUES ('Bright Silver', 'METALLIC', 'WHITE');
+INSERT INTO color(c_id, c_finish, c_color) VALUES ('Brilliant Black', 'PEARL', 'BLACK');
+INSERT INTO color(c_id, c_finish, c_color) VALUES ('Inferno Red', 'METALLIC', 'RED');   
+
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Bright Silver', 'Charger-SXT');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Brilliant Black', 'Charger-SXT');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Inferno Red', 'Charger-R/T');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Bright Silver', 'Charger-R/T');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Brilliant Black', 'Charger-R/T');
