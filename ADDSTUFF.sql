@@ -258,3 +258,73 @@ insert into engine_Transmission(e_id, tr_id)
 VALUES ('D5244T5', 'AW55-51SN');
 INSERT INTO color(c_id, c_finish, c_color) VALUES ('Ice White', 'SOLID', 'WHITE');
 INSERT INTO color_Trim(c_id, t_id) VALUES ('Ice White', 'V70-2.4D');
+
+
+-- 2025 Lucid Air
+INSERT INTO car(c_model, c_year, c_make, c_bodyType, c_wheelBase)
+VALUES ('Air', 2025, 'LUCID', 'SEDAN', 116.5);
+INSERT INTO trim(t_model, t_id, t_engine, t_transmission, t_wheels, t_accel, t_eco, t_weight, t_speed, t_price)
+VALUES ('Air', 'Dream Edition', 'Lucid Dual Motor', 'Single Speed Reduction Gear', 'Lucid 19 inch Aero', 3.1, 113, 4900, 168, 169000.00);
+INSERT INTO trim(t_model, t_id, t_engine, t_transmission, t_wheels, t_accel, t_eco, t_weight, t_speed, t_price)
+VALUES ('Air', 'Sapphire', 'Lucid Tri Motor', 'Single Speed Reduction Gear', 'Lucid 20 inch Performance', 1.9, 111, 5000, 155, 230000.00);
+insert INTO engine(e_id, e_cylinders, e_layout, e_fuelType, e_displacement, e_horsepower, e_torque, e_redline)
+VALUES ('Lucid Dual Motor', 0, 'ELECTRIC', 'ELECTRIC', 0, 670, 829, 19000);
+insert INTO engine(e_id, e_cylinders, e_layout, e_fuelType, e_displacement, e_horsepower, e_torque, e_redline)
+VALUES ('Lucid Tri Motor', 0, 'ELECTRIC', 'ELECTRIC', 0, 1234, 1050, 22000);
+INSERT INTO transmission(tr_id, tr_gears, tr_driveRatio, tr_driveType, tr_type)
+VALUES ('Single Speed Reduction Gear', 1, 'N/A', 'AWD', 'SINGLE SPEED');
+INSERT INTO wheel(w_id, w_diameter, w_rim, w_size)
+VALUES ('Lucid 19 inch Aero', 19, 'Aero Aluminum', 245);
+INSERT INTO wheel(w_id, w_diameter, w_rim, w_size)
+VALUES ('Lucid 20 inch Performance', 20, 'Performance Aluminum', 255);
+INSERT INTO manufacturer(m_make, m_nationOfOrigin)
+VALUES ('LUCID', 'USA');
+insert into engine_Transmission(e_id, tr_id)
+VALUES ('Lucid Dual Motor', 'Single Speed Reduction Gear');
+VALUES ('Lucid Tri Motor', 'Single Speed Reduction Gear');
+INSERT INTO color(c_id, c_finish, c_color) VALUES ('Pearl White', 'PEARL', 'WHITE');
+INSERT INTO color(c_id, c_finish, c_color) VALUES ('Stellar Black', 'METALLIC', 'BLACK');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Pearl White', 'Air-Dream Edition');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Stellar Black', 'Air-Dream Edition');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Pearl White', 'Air-Sapphire');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Stellar Black', 'Air-Sapphire');
+
+
+--1975 Chevy Chevette
+INSERT INTO car(c_model, c_year, c_make, c_bodyType, c_wheelBase)
+VALUES ('Chevette', 1975, 'CHEVROLET', 'HATCHBACK', 97.0);
+INSERT INTO trim(t_model, t_id, t_engine, t_transmission, t_wheels, t_accel, t_eco, t_weight, t_speed, t_price)
+VALUES ('Chevette', 'Base', '89 CID I4', 'GM-Turbo-Hydramatic', 'Chevy 13 inch Steelies', 12.0, 30, 2200, 100, 3000.00);
+INSERT INTO trim(t_model, t_id, t_engine, t_transmission, t_wheels, t_accel, t_eco, t_weight, t_speed, t_price)
+VALUES ('Chevette', 'Rally', '96 CID I4', 'Saginaw 4 Speed', 'Chevy 13 inch Steelies', 10.5, 28, 2250, 110, 3700.00);
+insert INTO engine(e_id, e_cylinders, e_layout, e_fuelType, e_displacement, e_horsepower, e_torque, e_redline)
+VALUES ('89 CID I4', 4, 'INLINE', 'GASOLINE', 1.5, 52, 43, 5000);
+insert INTO engine(e_id, e_cylinders, e_layout, e_fuelType, e_displacement, e_horsepower, e_torque, e_redline)
+VALUES ('96 CID I4', 4, 'INLINE', 'GASOLINE', 1.6, 60, 50, 5000);
+INSERT INTO transmission(tr_id, tr_gears, tr_driveRatio, tr_driveType, tr_type)
+VALUES ('GM-Turbo-Hydramatic', 3, '3.08', 'RWD', 'AUTOMATIC');
+INSERT INTO transmission(tr_id, tr_gears, tr_driveRatio, tr_driveType, tr_type)
+VALUES ('Saginaw 4 Speed', 4, '3.58', 'RWD', 'MANUAL');
+INSERT INTO wheel(w_id, w_diameter, w_rim, w_size)
+VALUES ('Chevy 13 inch Steelies', 13, 'Steel', 165);    
+INSERT INTO manufacturer(m_make, m_nationOfOrigin)
+VALUES ('CHEVROLET', 'USA');
+insert into engine_Transmission(e_id, tr_id)
+VALUES ('89 CID I4', 'GM-Turbo-Hydramatic');
+VALUES ('96 CID I4', 'Saginaw 4 Speed');
+INSERT INTO color(c_id, c_finish, c_color) VALUES ('Forest Wood', 'SOLID', 'BROWN');
+INSERT INTO color(c_id, c_finish, c_color) VALUES ('Dark Burgundy', 'SOLID', 'BROWN');
+INSERT INTO color(c_id, c_finish, c_color) VALUES ('Chocolate', 'SOLID', 'BROWN');
+INSERT INTO color(c_id, c_finish, c_color) VALUES ('Light Umber', 'SOLID', 'BROWN');
+INSERT INTO color(c_id, c_finish, c_color) VALUES ('Penny Roll', 'SOLID', 'BROWN');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Forest Wood', 'Chevette-Base');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Dark Burgundy', 'Chevette-Base');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Chocolate', 'Chevette-Base');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Light Umber', 'Chevette-Base');    
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Penny Roll', 'Chevette-Base');
+
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Forest Wood', 'Chevette-Rally');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Dark Burgundy', 'Chevette-Rally');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Chocolate', 'Chevette-Rally');
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Light Umber', 'Chevette-Rally');    
+INSERT INTO color_Trim(c_id, t_id) VALUES ('Penny Roll', 'Chevette-Rally');

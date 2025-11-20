@@ -1,3 +1,12 @@
+DROP VIEW IF EXISTS bestfuelEco;
+
+CREATE VIEW bestfuelEco (car, trim, economy) AS
+SELECT c_model as car, t_id as trim, MAX(t_eco) AS economy
+FROM car, trim
+WHERE c_model = t_model
+GROUP BY c_model;
+
+
 -- 1. All cars made after year 2000 (basic)
 SELECT c_model, c_year, c_make, c_bodyType
 FROM car
@@ -132,14 +141,6 @@ FROM trim t
 JOIN transmission tr ON t.t_transmission = tr.tr_id
 WHERE tr.tr_type = 'MANUAL';
 
-DROP VIEW IF EXISTS bestfuelEco;
-
-CREATE VIEW bestfuelEco (car, trim, economy) AS
-SELECT c_model as car, t_id as trim, MAX(t_eco) AS economy
-FROM car, trim
-WHERE c_model = t_model
-GROUP BY c_model;
-
 
 -- 21. Find best fuel economy per car model (view)
 SELECT *
@@ -152,3 +153,10 @@ SELECT DISTINCT c.c_make, c.c_model, bfe.economy
 FROM car c
 JOIN bestfuelEco bfe ON c.c_model = bfe.car
 WHERE bfe.economy > 25;
+
+
+-- 23 List number of trims by fuel type
+SELECT e.e_fuelType, COUNT(*) AS num_trims
+FROM engine e
+JOIN trim t ON e.e_id = t.t_engine  
+GROUP BY e.e_fuelType;
