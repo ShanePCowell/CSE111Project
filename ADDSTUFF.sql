@@ -95,7 +95,7 @@ INSERT INTO car(c_model, c_year, c_make, c_bodyType, c_wheelBase)
 VALUES ('240SX', 1993, 'NISSAN', 'COUPE', 97.4);
 
 INSERT INTO trim(t_model, t_id, t_engine, t_transmission, t_wheels, t_accel, t_eco, t_weight, t_speed, t_price)
-VALUES ('240SX', 'SE', 'KA24DE', 'KA24 5-speed', '240SX 15s', 8, 22, 2800, 130, 15000.00);
+VALUES ('240SX', 'SE', 'KA24DE', 'KA24 5-speed', '240SX 15s', 8, 22, 2800, 130, 13000.00);
 
 INSERT INTO trim(t_model, t_id, t_engine, t_transmission, t_wheels, t_accel, t_eco, t_weight, t_speed, t_price)
 VALUES ('240SX', 'Base', 'KA24DE', 'KA24 4-speed Auto', '14 inch Steelies', 8.6, 20, 2900, 120, 13500.00);
@@ -328,3 +328,6 @@ INSERT INTO color_Trim(c_id, t_id) VALUES ('Dark Burgundy', 'Chevette-Rally');
 INSERT INTO color_Trim(c_id, t_id) VALUES ('Chocolate', 'Chevette-Rally');
 INSERT INTO color_Trim(c_id, t_id) VALUES ('Light Umber', 'Chevette-Rally');    
 INSERT INTO color_Trim(c_id, t_id) VALUES ('Penny Roll', 'Chevette-Rally');
+
+
+UPDATE trim SET t_price = 15000.00 WHERE t_model = '240SX' AND t_id = 'SE';
