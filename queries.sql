@@ -65,10 +65,11 @@ FROM trim
 GROUP BY t_model;
 
 -- 11. num of trims per car model (aggregation + grouping)
-SELECT c.c_make, COUNT(*) AS num_trims
+SELECT c.c_make, c.c_model, COUNT(*) AS num_trims
 FROM car c
 JOIN trim t ON c.c_model = t.t_model
-GROUP BY c.c_make;
+GROUP BY c.c_make
+ORDER BY num_trims DESC ;
 
 -- 12. Drivetrain types and their average fuel economy (aggregation + HAVING)
 SELECT tr.tr_driveType, AVG(t.t_eco) AS avg_eco
@@ -130,3 +131,24 @@ SELECT t.t_model, t.t_id, t.t_price, tr.tr_type
 FROM trim t
 JOIN transmission tr ON t.t_transmission = tr.tr_id
 WHERE tr.tr_type = 'MANUAL';
+
+DROP VIEW IF EXISTS bestfuelEco;
+
+CREATE VIEW bestfuelEco (car, trim, economy) AS
+SELECT c_model as car, t_id as trim, MAX(t_eco) AS economy
+FROM car, trim
+WHERE c_model = t_model
+GROUP BY c_model;
+
+
+-- 21. Find best fuel economy per car model (view)
+SELECT *
+FROM bestfuelEco
+ORDER BY economy DESC;
+
+
+-- 22. List of cars that have trims with fuel economy over 25 mpg (view + filtering)
+SELECT DISTINCT c.c_make, c.c_model, bfe.economy
+FROM car c
+JOIN bestfuelEco bfe ON c.c_model = bfe.car
+WHERE bfe.economy > 25;
