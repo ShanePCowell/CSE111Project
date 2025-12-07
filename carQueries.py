@@ -119,3 +119,6 @@ def SeeStats(_conn):
         print("Wheels for Trim " + str(i+1))
         print("ID: DIAMETER: RIM: SIZE:")
         print(str(trimStats[i]) + "\n")
+    
+    print("\n \n")
+    project.baseMenu(_conn)
