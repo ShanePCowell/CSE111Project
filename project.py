@@ -2,6 +2,7 @@ import sqlite3
 from sqlite3 import Error
 
 import admin
+import carQueries
 
 loggedIn = False
 
@@ -67,8 +68,10 @@ def baseMenu(conn):
     inputVal = input()
     if inputVal == '1':
         print("Compare Vehicles selected")
+        carQueries.compareVehicles(conn)
     elif inputVal == '2':
         print("See Stats selected")
+        carQueries.SeeStats(conn)
     elif inputVal == '3':
         print("Premade Comparisons selected")
     elif inputVal == '4':
