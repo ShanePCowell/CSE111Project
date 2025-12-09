@@ -1,10 +1,12 @@
 import sqlite3
 from sqlite3 import Error
 
+import os
 import project
 
 def compareVehicles(_conn):
     ## COMPARE VEHICLES FUNCTION ##
+    project.clear_screen()
     c=_conn.cursor()
     c.execute("SELECT c_model FROM car")
     row=c.fetchall()
@@ -19,6 +21,7 @@ def compareVehicles(_conn):
         except ValueError:
             print(" Invalid input. Please try again.")
 
+    project.clear_screen()
     print(f"Comparing '{row[v1-1][0]}' and '{row[v2-1][0]}':")
 
     c.execute("SELECT c_year FROM car")
@@ -68,12 +71,14 @@ def compareVehicles(_conn):
     colors2=c.fetchall()
     print(f" - Number of Colors Available: {colors1[0][0]} vs {colors2[0][0]}")
 
-    print("\n \n")
+    print("\n")
 
+    input("Press Enter to return to the main menu...")
     project.baseMenu(_conn)
 
 def SeeStats(_conn):
     ## SEE STATS FUNCTION ##
+    project.clear_screen()
     c=_conn.cursor()
     c.execute("SELECT c_model FROM car")
     row=c.fetchall()
@@ -86,6 +91,7 @@ def SeeStats(_conn):
             value = True
         except ValueError:
             print(" Invalid input. Please try again.")
+    project.clear_screen()        
     print(f"Stats for '{row[v1-1][0]}':")
     c.execute(f"SELECT * FROM car WHERE c_model = '{row[v1-1][0]}'")
     carStats=c.fetchall()
@@ -120,5 +126,295 @@ def SeeStats(_conn):
         print("ID: DIAMETER: RIM: SIZE:")
         print(str(trimStats[i]) + "\n")
     
-    print("\n \n")
+    print("\n")
+    input("Press Enter to return to the main menu...")
     project.baseMenu(_conn)
+
+def moreInformation(conn):
+    cursor = conn.cursor()
+
+    while True:
+        project.clear_screen()
+        print("What would you like to see?")
+        print("1. Filter cars")
+        print("2. Sort cars")
+        print("3. Manufacturer stats")
+        print("4. Back\n")
+
+        choice = input("Select an option: ").strip()
+
+        if choice == '1':
+            handle_car_filters(cursor)
+        elif choice == '2':
+            handle_car_sorting(cursor)
+        elif choice == '3':
+            manufacturer_stats(cursor)
+        elif choice == '4':
+            break
+        else:
+            print("Invalid option, please try again.")
+            input("\nPress Enter to continue...")
+
+    project.baseMenu(conn)
+
+
+def handle_car_filters(cursor):
+    while True:
+        project.clear_screen()
+        print("How would you like to filter the cars?")
+        print("1. By Year")
+        print("2. By Make")
+        print("3. By Cylinder Count")
+        print("4. By Fuel Type")
+        print("5. Back\n")
+
+        filter_choice = input("Select a filter: ")
+
+        try:
+            if filter_choice == '1':
+                filter_by_year(cursor)
+            elif filter_choice == '2':
+                filter_by_make(cursor)
+            elif filter_choice == '3':
+                filter_by_cylinders(cursor)
+            elif filter_choice == '4':
+                filter_by_fuel_type(cursor)
+            elif filter_choice == '5':
+                break
+            else:
+                print("Invalid option, please try again.")
+        except Error as e:
+            print("Database error:", e)
+
+        input("\nPress Enter to continue...")
+
+def filter_by_year(cursor):
+    project.clear_screen()
+    year = input("Enter the minimum year: ").strip()
+    if not year.isdigit():
+        print("Invalid year.")
+        return
+
+    cursor.execute(
+        "SELECT c_model, c_year FROM car WHERE c_year > ?",
+        (int(year),)
+    )
+    results = cursor.fetchall()
+    print(f"\nCars from after year {year}:")
+    for model, y in results:
+        print(f"- {model} ({y})")
+
+def filter_by_make(cursor):
+    project.clear_screen()
+    print("Available Makes:\n")
+    cursor.execute("SELECT DISTINCT c_make FROM car ORDER BY c_make")
+    makes = [row[0] for row in cursor.fetchall()]
+    for m in makes:
+        print(f"- {m}")
+
+    make = input("\nEnter the make: ").upper().strip()
+    if make not in makes:
+        print("Invalid make selected.")
+        return
+
+    cursor.execute(
+        "SELECT c_model, c_make FROM car WHERE c_make = ?",
+        (make,)
+    )
+    results = cursor.fetchall()
+    project.clear_screen()
+    print(f"\nCars from make {make}:")
+    for model, m in results:
+        print(f"- {model} ({m})")
+
+def filter_by_cylinders(cursor):
+    project.clear_screen()
+    cylinders = input("Enter the minimum number of cylinders: ").strip()
+    if not cylinders.isdigit():
+        print("Invalid cylinder count.")
+        return
+
+    cursor.execute(
+        """
+        SELECT DISTINCT c.c_model, e.e_cylinders
+        FROM car c
+        JOIN trim t ON c.c_model = t.t_model
+        JOIN engine e ON t.t_engine = e.e_id
+        WHERE e.e_cylinders >= ?
+        """,
+        (int(cylinders),)
+    )
+    results = cursor.fetchall()
+    project.clear_screen()
+    print(f"\nCars with at least {cylinders} cylinders:")
+    for model, cyl in results:
+        print(f"- {model} ({cyl} cylinders)")
+
+def filter_by_fuel_type(cursor):
+    project.clear_screen()
+    print("Available Fuel Types:\n")
+    cursor.execute("SELECT DISTINCT e_fuelType FROM engine ORDER BY e_fuelType")
+    fuel_types = [row[0] for row in cursor.fetchall()]
+    for f in fuel_types:
+        print(f"- {f}")
+
+    fuel_type = input("\nEnter the fuel type: ").upper().strip()
+    if fuel_type not in fuel_types:
+        print("Invalid fuel type selected.")
+        return
+
+    cursor.execute(
+        """
+        SELECT DISTINCT c.c_make, c.c_model, e.e_fuelType
+        FROM car c
+        JOIN trim t ON c.c_model = t.t_model
+        JOIN engine e ON t.t_engine = e.e_id
+        WHERE e.e_fuelType = ?
+        """,
+        (fuel_type,)
+    )
+    results = cursor.fetchall()
+    project.clear_screen() 
+    print(f"\nCars with fuel type {fuel_type}:")
+    for make, model, fuel in results:
+        print(f"- {make} {model} ({fuel})")
+
+def manufacturer_stats(cursor):
+    ## MANUFACTURER STATS FUNCTION ##
+    project.clear_screen()
+    print("Available Makes:\n")
+    cursor.execute("SELECT DISTINCT c_make FROM car ORDER BY c_make")
+    makes = [row[0] for row in cursor.fetchall()]
+    for m in makes:
+        print(f"- {m}")
+    make = input("\nEnter the manufacturer to see stats: ").upper().strip()
+    if make not in makes:
+        print("Invalid manufacturer selected.")
+        return
+    project.clear_screen()
+    print("What stats would you like to see?")
+    print("1. Number of Models")
+    print("2. Average MPG")
+    print("3. Average Price")
+    print("4. Back\n")
+    stat_choice = input("Select a stat: ").strip()
+    if stat_choice == '1':
+        cursor.execute(
+            "SELECT COUNT(DISTINCT c_model) FROM car WHERE c_make = ?",
+            (make,)
+        )
+        result = cursor.fetchone()
+        project.clear_screen()
+        print(f"\nNumber of models by {make}: {result[0]}")
+        input("\nPress Enter to continue...")
+    elif stat_choice == '2':
+        cursor.execute(
+            """
+            SELECT AVG(t.t_eco)
+            FROM car c
+            JOIN trim t ON c.c_model = t.t_model
+            WHERE c.c_make = ?
+            """,
+            (make,)
+        )
+        result = cursor.fetchone()
+        project.clear_screen()
+        print(f"\nAverage MPG for {make}: {result[0]:.2f}")
+        input("\nPress Enter to continue...")
+    elif stat_choice == '3':
+        cursor.execute(
+            """
+            SELECT AVG(t.t_price)
+            FROM car c
+            JOIN trim t ON c.c_model = t.t_model
+            WHERE c.c_make = ?
+            """,
+            (make,)
+        )
+        result = cursor.fetchone()
+        project.clear_screen()
+        print(f"\nAverage Price for {make}: ${result[0]:.2f}")
+        input("\nPress Enter to continue...")
+    elif stat_choice == '4':
+        return
+    else:
+        print("Invalid option selected.")
+
+def handle_car_sorting(cursor):
+    while True:
+        project.clear_screen()
+        print("How would you like to sort the cars?")
+        print("1. By Minimum Price")
+        print("2. By Maximum Horsepower")
+        print("3. By Minimum Acceleration")
+        print("4. Back\n")
+
+        sort_choice = input("Select a sorting option: ")
+
+        try:
+            if sort_choice == '1':
+                sort_by_price(cursor)
+            elif sort_choice == '2':
+                sort_by_horsepower(cursor)
+            elif sort_choice == '3':
+                sort_by_acceleration(cursor)
+            elif sort_choice == '4':
+                break
+            else:
+                print("Invalid option, please try again.")
+        except Error as e:
+            print("Database error:", e)
+
+        input("\nPress Enter to continue...")
+
+def sort_by_price(cursor):
+    project.clear_screen()
+    cursor.execute(
+        """
+        SELECT c.c_model, MIN(t.t_price) AS min_price
+        FROM car c
+        JOIN trim t ON c.c_model = t.t_model
+        GROUP BY c.c_model
+        ORDER BY min_price ASC
+        """
+    )
+    results = cursor.fetchall()
+    print("Cars sorted by Price (Lowest to Highest):")
+    for model, price in results:
+        print(f"- {model}: ${price}")
+
+def sort_by_horsepower(cursor):
+    project.clear_screen()
+    cursor.execute(
+        """
+        SELECT c.c_model, MAX(e.e_horsepower) AS max_horsepower
+        FROM car c
+        JOIN trim t ON c.c_model = t.t_model
+        JOIN engine e ON t.t_engine = e.e_id
+        GROUP BY c.c_model
+        ORDER BY max_horsepower DESC
+        """
+    )
+    results = cursor.fetchall()
+    print("Cars sorted by Horsepower (Highest to Lowest):")
+    for model, horsepower in results:
+        print(f"- {model}: {horsepower} HP")
+
+def sort_by_acceleration(cursor):
+    project.clear_screen()
+    cursor.execute(
+        """
+        SELECT c.c_model, MIN(t.t_accel) AS best_acceleration
+        FROM car c
+        JOIN trim t ON c.c_model = t.t_model
+        GROUP BY c.c_model
+        ORDER BY best_acceleration ASC
+        """
+    )
+    results = cursor.fetchall()
+    print("Cars sorted by Acceleration (Fastest to Slowest 0-60):")
+    for model, acceleration in results:
+        print(f"- {model}: {acceleration} seconds")
+
+        
+    

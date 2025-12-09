@@ -6,6 +6,7 @@ FROM car, trim
 WHERE c_model = t_model
 GROUP BY c_model;
 
+-- Queries 1, 2, 4, 5, 6, 10, 11, 12, 19, 20 in carQueries.py
 
 -- 1. All cars made after year 2000 (basic)
 SELECT c_model, c_year, c_make, c_bodyType
@@ -24,7 +25,7 @@ FROM trim t
 JOIN engine e ON t.t_engine = e.e_id
 ORDER BY hp_per_kg DESC;
 
--- 4. List all cars along with their manufacturer's nation of origin (join 2 tables)
+-- 4. List all cars along with their manufacturer's nation of origin (join 2 tables) 
 SELECT c.c_make, c.c_model, c.c_year, m.m_nationOfOrigin
 FROM car c
 JOIN manufacturer m ON c.c_make = m.m_make;

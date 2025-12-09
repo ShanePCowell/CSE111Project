@@ -1,6 +1,7 @@
 import sqlite3
 from sqlite3 import Error
 
+import os
 import admin
 import carQueries
 
@@ -25,6 +26,9 @@ def closeConnection(_conn, _dbFile):
     except Error as e:
         print(e)
 
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 def adminMenu(conn):
     global loggedIn
     inputVal = ''  
@@ -32,6 +36,7 @@ def adminMenu(conn):
         inputVal = input("\n Enter Admin Password: ")
     if (inputVal == 'admin' or loggedIn):
         loggedIn = True
+        clear_screen()
         print("\n Admin Access Granted")
         print("1. Add Vehicle")
         print("2. Remove Vehicle")
@@ -59,10 +64,11 @@ def adminMenu(conn):
     
 
 def baseMenu(conn):
+    clear_screen()
     print("Car Comparison Tool")
     print("1. Compare Vehicles")
-    print("2. See Stats")
-    print("3. Premade Comparisons")
+    print("2. See Vehicle Stats")
+    print("3. More Information")
     print("4. Admin Tools")
     print("5. Exit \n")
     inputVal = input()
@@ -73,7 +79,8 @@ def baseMenu(conn):
         print("See Stats selected")
         carQueries.SeeStats(conn)
     elif inputVal == '3':
-        print("Premade Comparisons selected")
+        print("More Information selected")
+        carQueries.moreInformation(conn)
     elif inputVal == '4':
         adminMenu(conn)
     elif inputVal == '5':
@@ -84,7 +91,7 @@ def baseMenu(conn):
 
 def main():
     global loggedIn
-    database = r"CSE111Project/cars.sqlite"
+    database = r"cars.sqlite" # DELETED "CSE111Project/"
 
     loggedIn=True
 
