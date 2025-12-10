@@ -15,6 +15,7 @@ def addVehicle(_conn):
             print("Please Enter a Year.")
         else:
             valid=True
+            v_year = int(v_year)
     v_bType = input("Enter Vehicle Body Type: ")
     valid = False
     while valid==False:
@@ -23,10 +24,12 @@ def addVehicle(_conn):
             print("Please Enter a number.")
         else:
             valid=True
+            v_wBase = int(v_wBase)
+     ## INSERT VEHICLE INTO CAR TABLE ##
     try:
         _conn.execute(
             f'''INSERT INTO car(c_model, c_year, c_make, c_bodyType, c_wheelBase)
-            VALUES ('{v_make}', '{v_model}', {v_year}, '{v_bType}', {v_wBase})'''
+            VALUES ('{v_model}', '{v_year}', '{v_make}', '{v_bType}', {v_wBase})'''
         )
         
     except Error as e:
@@ -143,8 +146,8 @@ def addVehicle(_conn):
         value = False
         while not value:
             try:
-                w_diameter = int(input(f"Enter diameter for wheels {w}: "))
-                w_rim = input(f"Enter rim Type for wheels {w}: ")
+                w_diameter = int(input(f"Enter width of wheels {w}: "))
+                w_rim = input(f"Enter rim type for wheels {w}: ")
                 w_size = int(input(f"Enter rim size for wheels {w}: "))
                 value = True
             except ValueError:
