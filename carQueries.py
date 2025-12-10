@@ -8,10 +8,10 @@ def compareVehicles(_conn):
     ## COMPARE VEHICLES FUNCTION ##
     project.clear_screen()
     c=_conn.cursor()
-    c.execute("SELECT c_model FROM car")
+    c.execute("SELECT c_model, c_make FROM car")
     row=c.fetchall()
     for i in range(len(row)):
-        print(f"Vehicle '{i+1}': " +  row[i][0])    
+        print(f"Vehicle '{i+1}': " +  row[i][1] + " " +  row[i][0])    
     value = False
     while not value:
         try:
@@ -105,24 +105,24 @@ def SeeStats(_conn):
         print("NAME: ENGINE: TRANSMISSION: WHEELS: PRICE: ACCELERATION: MPG: WEIGHT: TOP SPEED:")
         print(str(trimStats[i]) + "\n")
 
-    c.execute(f"SELECT e_id, e_horsepower, e_torque, e_redline, e_fuelType, e_cylinders, e_displacement FROM engine JOIN trim on e_id=t_engine WHERE t_model = '{row[v1-1][0]}'")
+    c.execute(f"SELECT DISTINCT e_id, e_horsepower, e_torque, e_redline, e_fuelType, e_cylinders, e_displacement FROM engine JOIN trim on e_id=t_engine WHERE t_model = '{row[v1-1][0]}'")
     trimStats=c.fetchall()
     for i in range(len(trimStats)):
-        print("Engine for Trim " + str(i+1))
+        print(trimStats[i][0])
         print("ID: HORSEPOWER: TORQUE: REDLINE: FUELTYPE: CYLINDERS: DISPLACEMENT:")
         print(str(trimStats[i]) + "\n")
     
-    c.execute(f"SELECT tr_id, tr_type, tr_gears, tr_driveType, tr_driveRatio FROM transmission JOIN trim on tr_id=t_transmission WHERE t_model = '{row[v1-1][0]}'")
+    c.execute(f"SELECT DISTINCT tr_id, tr_type, tr_gears, tr_driveType, tr_driveRatio FROM transmission JOIN trim on tr_id=t_transmission WHERE t_model = '{row[v1-1][0]}'")
     trimStats=c.fetchall()
     for i in range(len(trimStats)):
-        print("Transmission for Trim " + str(i+1))
+        print(trimStats[i][0])
         print("ID: TYPE: GEARS: DRIVETYPE: DRIVERATIO:")
         print(str(trimStats[i]) + "\n")
     
-    c.execute(f"SELECT w_id, w_diameter, w_rim, w_size FROM wheel JOIN trim on w_id=t_wheels WHERE t_model = '{row[v1-1][0]}'")
+    c.execute(f"SELECT DISTINCT w_id, w_diameter, w_rim, w_size FROM wheel JOIN trim on w_id=t_wheels WHERE t_model = '{row[v1-1][0]}'")
     trimStats=c.fetchall()
     for i in range(len(trimStats)):
-        print("Wheels for Trim " + str(i+1))
+        print(trimStats[i][0])
         print("ID: DIAMETER: RIM: SIZE:")
         print(str(trimStats[i]) + "\n")
     

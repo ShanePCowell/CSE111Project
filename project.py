@@ -5,7 +5,7 @@ import os
 import admin
 import carQueries
 
-loggedIn = False
+loggedIn = True
 
 def openConnection(_dbFile):
 

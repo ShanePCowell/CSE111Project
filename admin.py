@@ -88,7 +88,7 @@ def addVehicle(_conn):
                 e_cylinders = int(input(f"Enter number of cylinders for engine {e}: "))
                 e_layout = input(f"Enter layout for engine {e}: ")
                 e_fuelType = input(f"Enter fuel type for engine {e}: ")
-                e_displacement = int(input(f"Enter displacement for engine {e}: "))
+                e_displacement = float(input(f"Enter displacement for engine {e}: "))
                 e_horsepower = int(input(f"Enter horsepower for engine {e}: "))
                 e_torque = int(input(f"Enter torque for engine {e}: "))
                 e_redline = int(input(f"Enter redline for engine {e}: "))
